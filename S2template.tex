@@ -1,0 +1,81 @@
+\documentclass[tog]{acmsiggraph}
+
+% haha wow, we have so many \thanks{}es that we ran out of symbols to use.
+% this is set by the documentclass, so this is sorta breaking the rules, but
+% hey, the alternative is to break compilation.
+\makeatletter
+\let\@fnsymbol\@arabic
+\makeatother
+
+%%% Used by the ``review'' variation; the online ID will be printed on 
+%%% every page of the content.
+\TOGonlineid{45678}
+
+%%% Used by the ``preprint'' variation.
+\TOGvolume{0}
+\TOGnumber{0}
+
+\newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
+\newcommand{\emailfoot}[1]{\thanks{\email{#1}}}
+
+\title{S2: STAR Report Introduction, Taxonomy, and Body}
+
+\author{Students: %
+ Sanjivi Muttena\emailfoot{sm1727@scarletmail.rutgers.edu}, %
+ Nikhil Kumar\emailfoot{nikhilkumar516@gmail.com}, %
+ Erin Corrado\emailfoot{e.corrado144@gmail.com}, %
+ Daniel Bordak\emailfoot{dbordak@fastmail.fm},%
+ \\Zooraze Tariq\emailfoot{zooraze@gmail.com}, %
+ James Lee\emailfoot{yl50@scarletmail.rutgers.edu}, %
+ Krishna Anantha Padmanabhan\emailfoot{krishna.ananth@rutgers.edu}, %
+ Jake Taubner\emailfoot{jdt97@scarletmail.rutgers.edu}, %
+ Arlind Hoxha\emailfoot{ah621@scarletmail.rutgers.edu}%
+ \\Teaching Assistant: Rahul Shome\emailfoot{rahulshome.in@gmail.com}%
+ \\Department of Computer Science%
+ \\Rutgers University} 
+\pdfauthor{author1}
+
+\keywords{STAR, S2, Graphics, Introduction, Taxonomy, Body, Machine Learning, Planning, Graph Algorithms, Optimization}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multibib}
+
+\newcites{ref}{
+  {References}
+}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+
+\paragraph{}
+
+
+
+\end{abstract}
+
+%\begin{CRcatlist}
+%  \CRcat{I.3.3}{Computer Graphics}{STAR Topic}{CRcat index}
+%  \CRcat{I.3.7}{Computer Graphics}{STAR Topic}{CRcat index};
+%\end{CRcatlist}
+
+\keywordlist
+
+
+\section{Introduction}
+
+\paragraph{}
+	The study of machine learning and planning can be broken down into several categories. Pattern database are admissible heuristics that are studied and tested on domain-independent search problems. Another criteria is the use of the local search space to optimize large scale search problems, while the use of different planning heuristics is tested and analyzed on different domains.\citeref{haslum2007domain} The primary algorithms of focus are the Real Time Adaptive A* and Learning Real time A*. Currently the industry has not fully utilized Machine Learning and AI for navigation applications. Industry is currently using Incremental search methods such as dynamic A* for unknown maps. This is used in DARPA’s Unmanned Ground Vehicle program, Mars Rover, and games such as Age of Empires 2. PRODIGY is an architecture used in planning and learning.\citeref{stone1994need} The current frontier of Academic research is currently focusing on many sections of machine learning and planning. A study is being done on finding a heuristic method which can best use machine learning to efficiently handle domain-independent search problems. Some research is done on reducing the complexity and the computation need of the algorithm. Another research method is focused on optimizing this algorithm through aiding parameters. Research is also being done to help the algorithm solve larger problems more successfully and expanding its optimal solutions from the local space into a larger space. Current problems with the application of machine learning in industry are the difficulty in extending this problem to multiple monotonous agents. Another problem is on the balance between exploration and exploitation where most algorithms have an excessive computation complexity for the optimal path when good is enough.    
+
+
+\bibliographystyleref{acmsiggraph}
+\nociteref{*}
+\bibliographyref{S2bibliography.bib}
+
+
+
+\end{document}

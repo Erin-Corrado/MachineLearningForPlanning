@@ -1,0 +1,124 @@
+\documentclass[tog]{acmsiggraph}
+
+% haha wow, we have so many \thanks{}es that we ran out of symbols to use.
+% this is set by the documentclass, so this is sorta breaking the rules, but
+% hey, the alternative is to break compilation.
+\makeatletter
+\let\@fnsymbol\@arabic
+\makeatother
+
+%%% Used by the ``review'' variation; the online ID will be printed on 
+%%% every page of the content.
+\TOGonlineid{45678}
+
+%%% Used by the ``preprint'' variation.
+\TOGvolume{0}
+\TOGnumber{0}
+
+\newcommand{\email}[1]{\href{mailto:#1}{\nolinkurl{#1}}}
+\newcommand{\emailfoot}[1]{\thanks{\email{#1}}}
+
+\title{S0: STAR Bibliography}
+
+\author{Students: %
+ Sanjivi Muttena\emailfoot{sm1727@scarletmail.rutgers.edu}, %
+ Nikhil Kumar\emailfoot{nikhilkumar516@gmail.com}, %
+ Erin Corrado\emailfoot{e.corrado144@gmail.com}, %
+ Daniel Bordak\emailfoot{dbordak@fastmail.fm},%
+ \\Zooraze Tariq\emailfoot{zooraze@gmail.com}, %
+ James Lee\emailfoot{yl50@scarletmail.rutgers.edu}, %
+ Krishna Anantha Padmanabhan\emailfoot{krishna.ananth@rutgers.edu}, %
+ Jake Taubner\emailfoot{jdt97@scarletmail.rutgers.edu}, %
+ Arlind Hoxha\emailfoot{ah621@scarletmail.rutgers.edu}%
+ \\Teaching Assistant: Rahul Shome\emailfoot{rahulshome.in@gmail.com}%
+ \\Department of Computer Science%
+ \\Rutgers University} 
+\pdfauthor{author1}
+
+\keywords{STAR, Graphics, Bibliography, SO, Machine Learning, Planning, Graph Algorithms, Optimization}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multibib}
+
+\newcites{ml,lo,pag,pm}{
+  {Machine Learning and AI References},
+  {Logistics And Optimization References},
+  {Planning and Graph Algorithm References},
+  {Probabilistic Models References}
+}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+
+\paragraph{}
+
+In this paper, we list and describe reference papers for the  Rutgers Introduction to Computer Graphics Fall 2015 STAR assignment. Our topic for this assignment is Machine Learning for Planning. We collected and categorized numerous papers which will be useful for our topic.
+
+\end{abstract}
+
+%\begin{CRcatlist}
+%  \CRcat{I.3.3}{Computer Graphics}{STAR Topic}{CRcat index}
+%  \CRcat{I.3.7}{Computer Graphics}{STAR Topic}{CRcat index};
+%\end{CRcatlist}
+
+\keywordlist
+
+
+\section{Introduction}
+
+\paragraph{}
+
+Machine Learning and Planning is a vast and rapidly growing field, which applies machine learning techniques to planning algorithms in order to improve planning. Planning is a challenging problem due to uncertain environments, limitations in computing, and ambiguity in defining actions and goals. We have decided to categorize our references into four main areas: Machine Learning and AI, Planning and Graph Algorithms, Probabilistic Models, and Logistics and Optimization. Each of these categories covers a crucial aspect of Machine Learning and Planning. Machine Learning and AI focuses on the computational algorithms of automatically learning and planning. Planning and Graph Algorithms focuses on the general planning and directed graph based algorithms. Logistics and Optimization focuses on logistical problems and methods used to optimize processes. Probabilistic Models concerns situations where learning and planning are applied in unknown environments where there is a high degree of uncertainty.
+
+\section{Related Work and Background}
+
+\subsection{Machine Learning and AI}
+%Brief description of Machine Learning and AI
+
+\bibliographystyleml{acmsiggraph}
+
+\paragraph{}
+
+Machine learning is described as the 'intersection between Computer Science and Statistics'. \citeml{mitchell2006discipline} The discipline is very broad and mainly concerns itself with the study and development of algorithms that can learn from and make predictions on data. Machine learning has applications in variety of fields including computer vision, search engines, and signal processing. It is also useful for automated planning.  Employing machine learning techniques can make planning algorithms more efficient, accurate, and intelligent by allowing the algorithms to learn and develop from data sets. Applying automated planners to real world problems is extremely difficult; getting accurate action models for planning  is a serious bottleneck for performance. Machine learning can be used to gather domain-specific control knowledge in order to improve automated planning through speed and accuracy. The papers here detail different machine learning techniques applied to navigation and planning.
+\citeml{enezreview}
+%\citeml{kamar2012combining}
+\nociteml{*}
+\bibliographyml{MachineLearningAndAI.bib}
+\subsection{Planning and Graph Algorithms}
+
+\paragraph{}
+
+Planning problems are described\citepag{kaelbling1998planning} as ``given a complete and correct model of the world dynamics and a reward structure, find an optimal way to behave.'' Although the assumption that one's model of world dynamics is ``complete and correct'' is obviously not always accurate, it can be fruitfully employed in a variety of situations. Planning problems have a close connection to directed graphs: each state can be represented as a vertex, and decisions represented as edges between states. The planning algorithms presented in the papers here loosely fall into three categories: state space searches, heuristic planners, and Markov decision processes.
+
+% Brief description of Planning and Graph Algorithm
+\bibliographystylepag{acmsiggraph}
+\nocitepag{*}
+\bibliographypag{PlanningAndGraphAlg.bib}
+
+\subsection{Logistics and Optimization}
+
+\paragraph{}
+
+From the start, machine learning has put optimization and logistics formulae, methods, and algorithms to use, and those disciplines have benefited from the contributions machine learning has made in turn. Optimization and logistics play a major role in the field of machine learning and planning because they enable applications in real world scenarios which involve making decisions within strict timeframes. This can range from something as simple as an agent playing chess or a Mars Rover traversing an unknown environment -- optimizing solutions and scheduling them appropriately so the right decision is made when it matters. The following set of papers focus on the theory, method, and relative success of optimization application techniques such as learning based optimization and macro-operators.
+
+\bibliographystylelo{acmsiggraph}
+\nocitelo{*}
+\bibliographylo{LogisticsAndOptimization.bib}
+
+
+\subsection{Probabilistic Models}
+% Brief description of Probabilistic Models
+
+Probabilistic models concentrate on the different techniques that can used to improve the learning and planning phase of any model. Our approach is to find the different decision theories that can be used to assist in this process of machine learning. The goal is to find a framework which would work best in real time scenarios and have a low computational overhead. In other words, we need to maximize the probability of achieving the goal of machine learning by using techniques like Markov decision process, Bayesian belief networks, anytime synthetic projection, etc. The papers referenced here give an idea of the techniques that can be used to do so.
+\bibliographystylepm{acmsiggraph}
+\nocitepm{*}
+\bibliographypm{ProbabalisticModels.bib}
+
+
+
+\end{document}
