@@ -118,6 +118,138 @@ Academic
 \section{Future Work}
 \indent Since there exists no "perfect" planning algorithm, many open problems and opportunities for future research exist. One area is pattern databases; the downfall of pattern databases is that they require a great deal of memory. Future work to compress pattern databases and implement them in more efficient and less memory consuming data structures would be highly useful. RTAA* (Real Time Adaptive A*) could be extended to work with inconsistent heuristics as well as be combined with other learning methods such as HTNs. Another area for future work is using the Macro-FF learning method with complex structures such as HTNs. Not much research has been done with learning and HTNs, making this an important area for future research. A long term open problem is automatic abstraction of planning domains and problems. Choosing a good abstraction level for a planning model is a difficult process for a human, so methods to automatically develop and update the formulation of a problem is an important area for future work.
 
+\section{Overview of Methods}
+The entire task of planning in an unknown domain can be broken down
+into the following sequence of steps. The first and foremost challenge
+is to choose an efficient and space conservative method to store the
+data. Since the domains can be large and unknown, the size of the
+problem can grow exponentially. This problem escalates even more if
+the environment is dynamic. The next challenge is to reach the goal
+state from a given state in finite time with the least possible cost.
+These solutions will be deployed in real time and it is of utmost
+importance that they carry out the action in the given timeframe. If
+the environment in which it is deployed is not fully observable, then
+the agents also have to take into account the probability of change in
+the portion of the environment that is not observable. To make
+planning feasible, let us take into consideration the following data
+structures and memory representations.
+
+\subsection{Hierarchical Task Networks}
+
+A Hierarchical Task Network is used to represent dependencies among
+actions. The world is represented by a set of states and actions. The
+actions represent a transition from one state to another. The reason
+why a hierarchical task network is preferred is because it simplifies
+the tasks to be performed by decomposing complex tasks into a simple
+sequence of primitive actions. To notify the agent on how to decompose
+non primitive tasks into subtasks, a set of methods are utilized for
+decomposing a particular kind of task into a set of subtasks provided
+a set of preconditions are satisfied. For each task, there may be more
+than one applicable method, and thus more than one way to decompose
+the task into subtasks. An example would be the following. In a grid
+world representation of a room that has to be cleaned by a vacuum
+cleaner agent, a hierarchical task network for the action of cleaning
+a room can be decomposed into a set of actions of suck, move right and
+move left where the move actions become valid when the grid cell is
+clean. One of the task planners that utilize HTNs is the Simple
+Hierarchical Ordered Planner (SHOP).A SHOP is domain independent. HTN
+planning is in essence a case of decomposition of the entire problem
+into subtasks, stopping when it reaches primitive tasks. An ordered
+task planner plans in the same way the sequence of actions will be
+executed. This reduces the complexity and assumes the deterministic
+nature of the environment
+
+\subsection{Pattern Databases}
+
+With the complex actions having been decomposed to a basic set of
+primitive tasks, one important data structure that reduces the
+complexity exponentially would be pattern databases. A pattern
+database holds a collection of solutions to sub problems which have to
+be solved to get the overall solution. If the amount of space
+available is higher, then the solutions to the sub problems can be
+precomputed and stored for more efficient and faster calculations.
+Essentially, pattern databases work by the comparison of current state
+of the decomposed problem to the problem indexed in the database and
+returns the precomputed solution.
+
+\subsection{Macro Actions}
+
+To mutate the current state of the environment or agent to the closest
+possible recognizable state in the pattern database, a sequence of
+actions have to be performed. A macro-action is a meta-action which is
+computed from a sequence of action steps. In a planning environment
+that involves progressive forward chaining, application of a macro
+action to a state produces a successive state that can be obtained by
+performing a sequence of actions. In a path finding world, this can be
+essentially thought of as an act of extending the path towards the
+solution. A good choice leads to an increase in agent performance
+while a poor choice raises the branching factor thereby causing the
+performance to drop. One of the planners that utilize macros is the
+Macro FF planner. An FF planner is a fully automated planner that uses
+a heuristic search approach to estimate the best node/state to expand
+to reach its goal. The utilization of macros reduces the expansion
+factor further since it learns which states to expand and which not
+to.
+
+\subsection{Search Techniques}
+
+
+To find out the node that has to be expanded next in the path towards
+the goal, the choice has to be made such that the expanded nodes take
+us closer to the goal and also compute that optimal solution quickly.
+A* search algorithm does give an optimal solution but one major
+drawback is the inability to deploy that in very large state spaces
+since it would run out of memory before the goal can be reached. Some
+variations of A* such as Real Time Adaptive A* and the Learning in
+Real Time A* algorithms can be considered viable alternatives
+depending on the environments in which the planner has to work on.
+
+\subsection{Real Time Adaptive A*}
+
+The basic idea behind Real Time Adaptive A* is simple. In an
+environment with multiple agents, each agent has to perform A*
+repeatedly with the same goal state but with possibly different start
+states. But each time A* is performed, the heuristics give a better
+estimate so that future A* searches are quicker. A* in general works
+by using \(f(s)\) which is the sum of the cost function \(g(s)\) from
+start node to current node and heuristic estimate \(h(s)\) from the
+current node to the goal state. A priority queue maintains a list of
+open nodes and from these set of nodes, the one with the least
+\(f(s)\) is chosen for expansion. To make future A* searches faster,
+let us consider how the heuristic can be updated. Let \(s\) be a state
+expanded during the search process. Obtaining an admissible estimate
+for \(gd[s]\) is easy. The distance from the start state
+\(s_\text{current}\) to any goal state via state \(s\) is equal to the
+sum of distance from the start state \(s_\text{current}\) to state
+\(s\) and the goal distance \(gd[s]\) of state \(s\). This is larger
+than the goal distance of \(s_\text{current}\). If \(s'\) is the goal
+state, then goal distance \(gd[s]\) of state \(s\) is larger than the
+goal distance \(gd[scurrent]\) minus the distance from the start state
+\(s_\text{current}\) to state \(s\).
+
+\[ g[s] + gd[s] ≥ gd[scurr] \]
+\[ gd[s] ≥ gd[scurr] − g[s] \]
+\[ gd[s] ≥ f[s’] − g[s] \]
+
+Eventually, the heuristic proposed in this technique is
+\[ h[s] = f[s’] − g[s] = g[s’] + h[s’] − g[s] \]
+
+
+RTAA* doesn’t work when heuristics are inconsistent.  
+
+\subsection{Learning Real Time A*}
+
+LRTA* updates the heuristics in a very basic way. For a given state
+\(s\), LRTA* with a lookahead of one considers immediate neighbors.
+For each neighbor state, the values of \(f\) is calculated. If \(s’\)
+is the state with the least \(f\) value, and if it is greater than the
+h value of the current state \(s\), then \(h(s)\) is initialized to
+\(f(s’)\). As far as LTRA* is concerned, the factors that have to be
+taken into consideration are deeper lookaheads, heuristic weights and
+adding backtracking so that the heuristics of predecessor nodes can
+also be updated. For non-deterministic domains, min-max LRTA* is
+proposed
+
 \bibliographystyleref{acmsiggraph}
 \nociteref{*}
 \bibliographyref{S2bibliography.bib}
