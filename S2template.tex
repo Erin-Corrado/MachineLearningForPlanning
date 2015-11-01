@@ -1,13 +1,13 @@
 \documentclass[tog]{acmsiggraph}
 
-% haha wow, we have so many \thanks{}es that we ran out of symbols to use.
-% this is set by the documentclass, so this is sorta breaking the rules, but
-% hey, the alternative is to break compilation.
+% haha wow, we have so many \thanks{}es that we ran out of symbols to
+% use. this is set by the documentclass, so this is sorta breaking the
+% rules, but hey, the alternative is to break compilation.
 \makeatletter
 \let\@fnsymbol\@arabic
 \makeatother
 
-%%% Used by the ``review'' variation; the online ID will be printed on 
+%%% Used by the ``review'' variation; the online ID will be printed on
 %%% every page of the content.
 \TOGonlineid{45678}
 
@@ -46,22 +46,13 @@
 \newcommand{\cmark}{\color{Green}{\ding{51}}}
 \newcommand{\xmark}{\color{Red}{\ding{55}}}
 
-\newcites{ref}{
-  {References}
-}
-
 \begin{document}
 
 \maketitle
 
-
-\begin{abstract}
-
-\paragraph{}
-
-
-
-\end{abstract}
+%\begin{abstract}
+%  \paragraph{}
+%\end{abstract}
 
 %\begin{CRcatlist}
 %  \CRcat{I.3.3}{Computer Graphics}{STAR Topic}{CRcat index}
@@ -74,17 +65,13 @@
 
 \section{Introduction}
 
-\paragraph{}
-%Previous Work
-%Problem Statement, Motivation, Use Case
-%\paragraph{}
 Planning in real time is a challenging task because of the dynamic nature of environment. A major problem faced by researchers is in finding an optimal strategy to decide when to expand the state space and when to stop and recalculate. Another problem faced by researchers is in expanding algorithms that work with local search to work for global search where the number of variables increases by a huge number. 
-\\
-\indent The search domains in real world scenarios are non-deterministic, complex and huge. This can be owed to the different types of agent’s viz., characters, objects and obstacles and their behaviors that can be present in a dynamic environment. Simulating such a domain virtually is a challenging task due to the large branching factor and high computational overhead that encompasses it. One of the principal ways in which we can reduce this overhead is by making use of previous experiences. This is where machine learning aids, since it automatically learns, optimizes and plans the agent’s next move based on previous moves. We need our algorithm to learn the properties of the search domain and plan accordingly by making use of efficient heuristic functions and cost functions.
-\\
-\indent Consider a humanoid robot that can move through any unknown environment by avoiding all kinds of obstacles, much like C-3PO in Star Wars. Such a robot would become the state of the art in robotics and have enormous applications in all aspects of life. These robots could save lives in the sectors of health, industry, military, etc. The motion and trajectory planning of this robot would be the most fundamental, yet formidable challenges of autonomous robotic design. Since we would have high-dimensional state spaces, using a machine learning algorithm for its planning stage would be very resource friendly. The design of such an algorithm is very tricky since we would have to consider all variables in the robot’s physics but if it is achieved, we would have a robot that could change our lives forever.
-\\
-\indent Machine learning in planning and scheduling can be applied anywhere an expensive, domain-specific problem exists, and an inexpensive solution is required; meaning, for businesses that want to make more money, and academics that need to solve problems with less money. This money is saved both by reducing required time and optimizing resource use (to the point it is cost-effective to do so).
+
+The search domains in real world scenarios are non-deterministic, complex and huge. This can be owed to the different types of agent’s viz., characters, objects and obstacles and their behaviors that can be present in a dynamic environment. Simulating such a domain virtually is a challenging task due to the large branching factor and high computational overhead that encompasses it. One of the principal ways in which we can reduce this overhead is by making use of previous experiences. This is where machine learning aids, since it automatically learns, optimizes and plans the agent’s next move based on previous moves. We need our algorithm to learn the properties of the search domain and plan accordingly by making use of efficient heuristic functions and cost functions.
+
+Consider a humanoid robot that can move through any unknown environment by avoiding all kinds of obstacles, much like C-3PO in Star Wars. Such a robot would become the state of the art in robotics and have enormous applications in all aspects of life. These robots could save lives in the sectors of health, industry, military, etc. The motion and trajectory planning of this robot would be the most fundamental, yet formidable challenges of autonomous robotic design. Since we would have high-dimensional state spaces, using a machine learning algorithm for its planning stage would be very resource friendly. The design of such an algorithm is very tricky since we would have to consider all variables in the robot’s physics but if it is achieved, we would have a robot that could change our lives forever.
+
+Machine learning in planning and scheduling can be applied anywhere an expensive, domain-specific problem exists, and an inexpensive solution is required; meaning, for businesses that want to make more money, and academics that need to solve problems with less money. This money is saved both by reducing required time and optimizing resource use (to the point it is cost-effective to do so).
 
 Commercial
 \begin{itemize}  
@@ -111,17 +98,19 @@ Academic
 \item Data search
 \end{itemize}
 
-\indent There are various methods for machine learning and planning because of its hefty and numerous requirements and features. Each method has its own purpose and varies depending on the problem to be solved. In order for machine learning and planning to take place, there needs to exist a search space, initial and end goal states, and solution. A method can be evaluated by the following criteria: planning time per move, likeliness of finding optimal path or near-optimal path, learning time, and memory usage. Ideally, we want to minimize planning time, learning time, and memory usage while obtaining as close to optimal solution as possible. With each of these criteria to keep track of come with challenges on how to adjust and create a more powerful and efficient algorithm for machine learning and planning.
-\\
-\indent The challenges of machine learning and planning is not that of how to get a solution, but how fast one can get a solution, how efficient the method is, and how optimal the solution is. There is an abundance of methods for machine learning and planning, each crafted to solve a different type of problem. Some methods such as the RTAA* follows trajectories of smaller cost for given time limits per search because it updates the heuristics quicker, which allows it to use larger local search spaces, which overcompensates for its less informed heuristics. While on the other hand, the min-max LRTA* is expected to run in a safely explorable state space, meaning the state spaces have to be relatively small or contain many evenly spread out goal states, but is inefficient if otherwise. Real-time search does not focus on the learning aspect but focuses on the time, thus outputting a sub-optimal solution, but nonetheless a fast solution. Pattern Databases and Macros can be used to improve performance by making it more efficient to find states. Hierarchical Task Networks can also be used to help organize planning algorithms for better efficiency. As one can observe, there are various trade-offs in efficiency, performance, and costs, depending on the algorithm's purpose.
-\\
-\indent As observed in the previous paragraph there are various methods that are optimal for one scenario but not for another. Since there are a plethora of problems and solutions under the umbrella of machine learning and planning, there is no one "Holy Grail", but a "Holy Grail" for each problem and solution. We can, however, speculate on what a "Holy Grail" solution would entail. One must observe what is important in a solution: does the solution need to be outputted as fast as possible, or does the solution need to be optimal, etc.? Observation of initial and end goal states along with search space is also key. If the solution must be optimal and the search space is small, using the RTAA* would be appropriate since it will output an optimal solution, but the min-max LRTA* would be preferred over the RTAA* since the LRTA* is the more optimal in smaller search spaces. A Holy Grail solution would seek to combine the optimality of LRTA* with the faster speed of RTAA*. Hierarchical Task Networks and Macro Abstractions are also very useful in making planning algorithms faster and more efficient. The downside to them is that creating a planning model from a real-world problem is a difficult and time consuming task for humans. A long term goal of planning is to create a model that automatically creates and updates the formulation of a problem. Therefore, the Holy Grail solution would also include the ability to automatically and dynamically generate new abstraction models for the planning, to help with non-deterministic environments.
+There are various methods for machine learning and planning because of its hefty and numerous requirements and features. Each method has its own purpose and varies depending on the problem to be solved. In order for machine learning and planning to take place, there needs to exist a search space, initial and end goal states, and solution. A method can be evaluated by the following criteria: planning time per move, likeliness of finding optimal path or near-optimal path, learning time, and memory usage. Ideally, we want to minimize planning time, learning time, and memory usage while obtaining as close to optimal solution as possible. With each of these criteria to keep track of come with challenges on how to adjust and create a more powerful and efficient algorithm for machine learning and planning.
+
+The challenges of machine learning and planning is not that of how to get a solution, but how fast one can get a solution, how efficient the method is, and how optimal the solution is. There is an abundance of methods for machine learning and planning, each crafted to solve a different type of problem. Some methods such as the RTAA* follows trajectories of smaller cost for given time limits per search because it updates the heuristics quicker, which allows it to use larger local search spaces, which overcompensates for its less informed heuristics. While on the other hand, the min-max LRTA* is expected to run in a safely explorable state space, meaning the state spaces have to be relatively small or contain many evenly spread out goal states, but is inefficient if otherwise. Real-time search does not focus on the learning aspect but focuses on the time, thus outputting a sub-optimal solution, but nonetheless a fast solution. Pattern Databases and Macros can be used to improve performance by making it more efficient to find states. Hierarchical Task Networks can also be used to help organize planning algorithms for better efficiency. As one can observe, there are various trade-offs in efficiency, performance, and costs, depending on the algorithm's purpose.
+
+As observed in the previous paragraph there are various methods that are optimal for one scenario but not for another. Since there are a plethora of problems and solutions under the umbrella of machine learning and planning, there is no one "Holy Grail", but a "Holy Grail" for each problem and solution. We can, however, speculate on what a "Holy Grail" solution would entail. One must observe what is important in a solution: does the solution need to be outputted as fast as possible, or does the solution need to be optimal, etc.? Observation of initial and end goal states along with search space is also key. If the solution must be optimal and the search space is small, using the RTAA* would be appropriate since it will output an optimal solution, but the min-max LRTA* would be preferred over the RTAA* since the LRTA* is the more optimal in smaller search spaces. A Holy Grail solution would seek to combine the optimality of LRTA* with the faster speed of RTAA*. Hierarchical Task Networks and Macro Abstractions are also very useful in making planning algorithms faster and more efficient. The downside to them is that creating a planning model from a real-world problem is a difficult and time consuming task for humans. A long term goal of planning is to create a model that automatically creates and updates the formulation of a problem. Therefore, the Holy Grail solution would also include the ability to automatically and dynamically generate new abstraction models for the planning, to help with non-deterministic environments.
+
 \section{Prior Work}
-\indent The study of machine learning and planning can be broken down into several categories: Pattern Databases, local search space, Real Time Adaptive A*, and Learning Real Time A*. . Pattern database are admissible heuristics that are studied and tested on domain-independent search problems. Another criteria is the use of the local search space to optimize large scale search problems, while the use of different planning heuristics is tested and analyzed on different domains.\citeref{haslum2007domain} The primary algorithms of focus are the Real Time Adaptive A* and Learning Real time A*. Currently the industry has not fully utilized Machine Learning and AI for navigation applications. Industry is currently using Incremental search methods such as dynamic A* for unknown maps. This is used in DARPA’s Unmanned Ground Vehicle program, Mars Rover, and games such as Age of Empires 2. 
-\\
-\indent PRODIGY is an architecture used in planning and learning.\citeref{stone1994need} The current frontier of Academic research is currently focusing on many sections of machine learning and planning. A study is being done on finding a heuristic method which can best use machine learning to efficiently handle domain-independent search problems. Some research is done on reducing the complexity and the computation need of the algorithm. Another research method is focused on optimizing this algorithm through aiding parameters. Research is also being done to help the algorithm solve larger problems more successfully and expanding its optimal solutions from the local space into a larger space. Current problems with the application of machine learning in industry are the difficulty in extending this problem to multiple monotonous agents. Another problem is on the balance between exploration and exploitation where most algorithms have an excessive computation complexity for the optimal path when good is enough.
+The study of machine learning and planning can be broken down into several categories: Pattern Databases, local search space, Real Time Adaptive A*, and Learning Real Time A*. . Pattern database are admissible heuristics that are studied and tested on domain-independent search problems. Another criteria is the use of the local search space to optimize large scale search problems, while the use of different planning heuristics is tested and analyzed on different domains.\cite{haslum2007domain} The primary algorithms of focus are the Real Time Adaptive A* and Learning Real time A*. Currently the industry has not fully utilized Machine Learning and AI for navigation applications. Industry is currently using Incremental search methods such as dynamic A* for unknown maps. This is used in DARPA’s Unmanned Ground Vehicle program, Mars Rover, and games such as Age of Empires 2. 
+
+PRODIGY is an architecture used in planning and learning.\cite{stone1994need} The current frontier of Academic research is currently focusing on many sections of machine learning and planning. A study is being done on finding a heuristic method which can best use machine learning to efficiently handle domain-independent search problems. Some research is done on reducing the complexity and the computation need of the algorithm. Another research method is focused on optimizing this algorithm through aiding parameters. Research is also being done to help the algorithm solve larger problems more successfully and expanding its optimal solutions from the local space into a larger space. Current problems with the application of machine learning in industry are the difficulty in extending this problem to multiple monotonous agents. Another problem is on the balance between exploration and exploitation where most algorithms have an excessive computation complexity for the optimal path when good is enough.
+
 \section{Future Work}
-\indent Since there exists no "perfect" planning algorithm, many open problems and opportunities for future research exist. One area is pattern databases; the downfall of pattern databases is that they require a great deal of memory. Future work to compress pattern databases and implement them in more efficient and less memory consuming data structures would be highly useful. RTAA* (Real Time Adaptive A*) could be extended to work with inconsistent heuristics as well as be combined with other learning methods such as HTNs. Another area for future work is using the Macro-FF learning method with complex structures such as HTNs. Not much research has been done with learning and HTNs, making this an important area for future research. A long term open problem is automatic abstraction of planning domains and problems, as explained in the "Holy Grail" solution. Choosing a good abstraction level for a planning model is a difficult process for a human, so methods to automatically develop and update the formulation of a problem is an important area for future work.
+Since there exists no "perfect" planning algorithm, many open problems and opportunities for future research exist. One area is pattern databases; the downfall of pattern databases is that they require a great deal of memory. Future work to compress pattern databases and implement them in more efficient and less memory consuming data structures would be highly useful. RTAA* (Real Time Adaptive A*) could be extended to work with inconsistent heuristics as well as be combined with other learning methods such as HTNs. Another area for future work is using the Macro-FF learning method with complex structures such as HTNs. Not much research has been done with learning and HTNs, making this an important area for future research. A long term open problem is automatic abstraction of planning domains and problems, as explained in the "Holy Grail" solution. Choosing a good abstraction level for a planning model is a difficult process for a human, so methods to automatically develop and update the formulation of a problem is an important area for future work.
 
 \begin{figure*}
 \begin{center}
@@ -157,11 +146,11 @@ the environment is dynamic. The next challenge is to reach the goal
 state from a given state in finite time with the least possible cost.
 These solutions will be deployed in real time and it is of utmost
 importance that they carry out the action in the given timeframe. If
-the environment is not fully observable, then
-the agents also have to take into account the probability of change in
-the portion of the environment that is not observable. To make
-planning feasible, we will take into consideration the data
-structures and memory representations.
+the environment is not fully observable, then the agents also have to
+take into account the probability of change in the portion of the
+environment that is not observable. To make planning feasible, we will
+take into consideration the data structures and memory
+representations.
 
 \subsection{Hierarchical Task Networks}
 
@@ -256,13 +245,12 @@ state, then goal distance \(gd[s]\) of state \(s\) is larger than the
 goal distance \(gd[scurrent]\) minus the distance from the start state
 \(s_\text{current}\) to state \(s\).
 
-\[ g[s] + gd[s] ≥ gd[scurr] \]
-\[ gd[s] ≥ gd[scurr] − g[s] \]
-\[ gd[s] ≥ f[s’] − g[s] \]
+\[ g[s] + gd[s] \geq gd[scurr] \]
+\[ gd[s] \geq gd[scurr] - g[s] \]
+\[ gd[s] \geq f[s'] - g[s] \]
 
 Eventually, the heuristic proposed in this technique is
-\[ h[s] = f[s’] − g[s] = g[s’] + h[s’] − g[s] \]
-
+\[ h[s] = f[s'] - g[s] = g[s'] + h[s'] - g[s] \]
 
 RTAA* doesn’t work when heuristics are inconsistent.  
 
@@ -270,19 +258,17 @@ RTAA* doesn’t work when heuristics are inconsistent.
 
 LRTA* updates the heuristics in a very basic way. For a given state
 \(s\), LRTA* with a lookahead of one considers immediate neighbors.
-For each neighbor state, the values of \(f\) is calculated. If \(s’\)
+For each neighbor state, the values of \(f\) is calculated. If \(s'\)
 is the state with the least \(f\) value, and if it is greater than the
 h value of the current state \(s\), then \(h(s)\) is initialized to
-\(f(s’)\). As far as LTRA* is concerned, the factors that have to be
+\(f(s')\). As far as LTRA* is concerned, the factors that have to be
 taken into consideration are deeper lookaheads, heuristic weights and
 adding backtracking so that the heuristics of predecessor nodes can
 also be updated. For non-deterministic domains, min-max LRTA* is
 proposed
 
-\bibliographystyleref{acmsiggraph}
-\nociteref{*}
-\bibliographyref{S2bibliography.bib}
-
-
+\bibliographystyle{acmsiggraph}
+\nocite{*}
+\bibliography{S2bibliography.bib}
 
 \end{document}
