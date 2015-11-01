@@ -40,6 +40,11 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{multibib}
+\usepackage{pifont}
+\usepackage[usenames, dvipsnames]{color}
+
+\newcommand{\cmark}{\color{Green}{\ding{51}}}
+\newcommand{\xmark}{\color{Red}{\ding{55}}}
 
 \newcites{ref}{
   {References}
@@ -110,13 +115,37 @@ Academic
 \\
 \indent The challenges of machine learning and planning is not that of how to get a solution, but how fast one can get a solution, how efficient the method is, and how optimal the solution is. There is an abundance of methods for machine learning and planning, each crafted to solve a different type of problem. Some methods such as the RTAA* follows trajectories of smaller cost for given time limits per search because it updates the heuristics quicker, which allows it to use larger local search spaces, which overcompensates for its less informed heuristics. While on the other hand, the min-max LRTA* is expected to run in a safely explorable state space, meaning the state spaces have to be relatively small or contain many evenly spread out goal states, but is inefficient if otherwise. Real-time search does not focus on the learning aspect but focuses on the time, thus outputting a sub-optimal solution, but nonetheless a fast solution. Pattern Databases and Macros can be used to improve performance by making it more efficient to find states. Hierarchical Task Networks can also be used to help organize planning algorithms for better efficiency. As one can observe, there are various trade-offs in efficiency, performance, and costs, depending on the algorithm's purpose.
 \\
-\indent As observed in the previous paragraph there are various methods that are optimal for one scenario but not for another. Since there are a plethora of problems and solutions under the umbrella of machine learning and planning, there is no one "Holy Grail", but a "Holy Grail" for each problem and solution. We can, however, speculate on what a "Holy Grail" solution would entail. One must observe what is important in a solution: does the solution need to be outputted as fast as possible, or does the solution need to be optimal, etc.? Observation of initial and end goal states along with search space is also key. If the solution must be optimal and the search space is small, using the RTAA* would be appropriate since it will output an optimal solution, but the min-max LRTA* would be preferred over the RTAA* since the LRTA* is the more optimal in smaller search spaces. A Holy Grail solution would seek to combine the optimiality of LRTA* with the faster speed of RTAA*. Hierarchical Task Networks and Macro Abstractions are also very useful in making planning algorithms faster and more efficient. The downside to them is that creating a planning model from a real-world problem is a difficult and time consuming task for humans. A long term goal of planning is to create a model that automically creates and updates the formulation of a problem. Therefore, the Holy Grail solution would also include the ability to automatically and dynamically generate new abstraction models for the planning, to help with non-deterministic environments.
+\indent As observed in the previous paragraph there are various methods that are optimal for one scenario but not for another. Since there are a plethora of problems and solutions under the umbrella of machine learning and planning, there is no one "Holy Grail", but a "Holy Grail" for each problem and solution. We can, however, speculate on what a "Holy Grail" solution would entail. One must observe what is important in a solution: does the solution need to be outputted as fast as possible, or does the solution need to be optimal, etc.? Observation of initial and end goal states along with search space is also key. If the solution must be optimal and the search space is small, using the RTAA* would be appropriate since it will output an optimal solution, but the min-max LRTA* would be preferred over the RTAA* since the LRTA* is the more optimal in smaller search spaces. A Holy Grail solution would seek to combine the optimality of LRTA* with the faster speed of RTAA*. Hierarchical Task Networks and Macro Abstractions are also very useful in making planning algorithms faster and more efficient. The downside to them is that creating a planning model from a real-world problem is a difficult and time consuming task for humans. A long term goal of planning is to create a model that automatically creates and updates the formulation of a problem. Therefore, the Holy Grail solution would also include the ability to automatically and dynamically generate new abstraction models for the planning, to help with non-deterministic environments.
 \section{Prior Work}
 \indent The study of machine learning and planning can be broken down into several categories: Pattern Databases, local search space, Real Time Adaptive A*, and Learning Real Time A*. . Pattern database are admissible heuristics that are studied and tested on domain-independent search problems. Another criteria is the use of the local search space to optimize large scale search problems, while the use of different planning heuristics is tested and analyzed on different domains.\citeref{haslum2007domain} The primary algorithms of focus are the Real Time Adaptive A* and Learning Real time A*. Currently the industry has not fully utilized Machine Learning and AI for navigation applications. Industry is currently using Incremental search methods such as dynamic A* for unknown maps. This is used in DARPA’s Unmanned Ground Vehicle program, Mars Rover, and games such as Age of Empires 2. 
 \\
 \indent PRODIGY is an architecture used in planning and learning.\citeref{stone1994need} The current frontier of Academic research is currently focusing on many sections of machine learning and planning. A study is being done on finding a heuristic method which can best use machine learning to efficiently handle domain-independent search problems. Some research is done on reducing the complexity and the computation need of the algorithm. Another research method is focused on optimizing this algorithm through aiding parameters. Research is also being done to help the algorithm solve larger problems more successfully and expanding its optimal solutions from the local space into a larger space. Current problems with the application of machine learning in industry are the difficulty in extending this problem to multiple monotonous agents. Another problem is on the balance between exploration and exploitation where most algorithms have an excessive computation complexity for the optimal path when good is enough.
 \section{Future Work}
 \indent Since there exists no "perfect" planning algorithm, many open problems and opportunities for future research exist. One area is pattern databases; the downfall of pattern databases is that they require a great deal of memory. Future work to compress pattern databases and implement them in more efficient and less memory consuming data structures would be highly useful. RTAA* (Real Time Adaptive A*) could be extended to work with inconsistent heuristics as well as be combined with other learning methods such as HTNs. Another area for future work is using the Macro-FF learning method with complex structures such as HTNs. Not much research has been done with learning and HTNs, making this an important area for future research. A long term open problem is automatic abstraction of planning domains and problems, as explained in the "Holy Grail" solution. Choosing a good abstraction level for a planning model is a difficult process for a human, so methods to automatically develop and update the formulation of a problem is an important area for future work.
+
+\begin{figure*}
+\begin{center}
+\begin{tabular}{|c|c| c |c|c|c|}
+	\hline
+	 & Fast at runtime & Memory Efficient & Real-time & Scalable & Non-deterministic domains\\
+	 \hline
+	RTAA* & \cmark & \cmark & \cmark & \xmark  & \cmark \\
+	\hline
+	LRTA* & \cmark & \cmark & \cmark & \xmark  & \xmark \\
+	\hline
+	Pattern Databases & \cmark & \xmark & \xmark & \cmark & \xmark\\
+	\hline
+	HTN   & \xmark & \cmark & \xmark & \cmark & \xmark \\
+	\hline
+	Macro Actions & \cmark & \cmark & \xmark & \cmark & \xmark \\
+	\hline
+	Strong AI & \cmark & \cmark & \cmark & \cmark & \cmark\\
+	\hline
+\end{tabular}
+\end{center}
+\caption{Feature matrix.}
+\label{table:feature_matrix}
+\end{figure*}
 
 \section{Overview of Data Structures and Representations}
 The entire task of planning in an unknown domain can be broken down
