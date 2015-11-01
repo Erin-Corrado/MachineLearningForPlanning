@@ -39,7 +39,6 @@
 
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{multibib}
 \usepackage{pifont}
 \usepackage[usenames, dvipsnames]{color}
 
@@ -112,9 +111,9 @@ PRODIGY is an architecture used in planning and learning.\cite{stone1994need} Th
 \section{Future Work}
 Since there exists no "perfect" planning algorithm, many open problems and opportunities for future research exist. One area is pattern databases; the downfall of pattern databases is that they require a great deal of memory. Future work to compress pattern databases and implement them in more efficient and less memory consuming data structures would be highly useful. RTAA* (Real Time Adaptive A*) could be extended to work with inconsistent heuristics as well as be combined with other learning methods such as HTNs. Another area for future work is using the Macro-FF learning method with complex structures such as HTNs. Not much research has been done with learning and HTNs, making this an important area for future research. A long term open problem is automatic abstraction of planning domains and problems, as explained in the "Holy Grail" solution. Choosing a good abstraction level for a planning model is a difficult process for a human, so methods to automatically develop and update the formulation of a problem is an important area for future work.
 
-\begin{figure*}
-\begin{center}
-\begin{tabular}{|c|c| c |c|c|c|}
+\begin{table*}
+  \begin{center}
+  \begin{tabular}{|c|c| c |c|c|c|}
 	\hline
 	 & Fast at runtime & Memory Efficient & Real-time & Scalable & Non-deterministic domains\\
 	 \hline
@@ -130,11 +129,11 @@ Since there exists no "perfect" planning algorithm, many open problems and oppor
 	\hline
 	Strong AI & \cmark & \cmark & \cmark & \cmark & \cmark\\
 	\hline
-\end{tabular}
-\end{center}
-\caption{Feature matrix.}
-\label{table:feature_matrix}
-\end{figure*}
+  \end{tabular}
+  \end{center}
+  \caption{Feature matrix.}
+  \label{table:feature_matrix}
+\end{table*}
 
 \section{Overview of Data Structures and Representations}
 The entire task of planning in an unknown domain can be broken down
