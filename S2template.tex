@@ -118,7 +118,7 @@ Academic
 \section{Future Work}
 \indent Since there exists no "perfect" planning algorithm, many open problems and opportunities for future research exist. One area is pattern databases; the downfall of pattern databases is that they require a great deal of memory. Future work to compress pattern databases and implement them in more efficient and less memory consuming data structures would be highly useful. RTAA* (Real Time Adaptive A*) could be extended to work with inconsistent heuristics as well as be combined with other learning methods such as HTNs. Another area for future work is using the Macro-FF learning method with complex structures such as HTNs. Not much research has been done with learning and HTNs, making this an important area for future research. A long term open problem is automatic abstraction of planning domains and problems, as explained in the "Holy Grail" solution. Choosing a good abstraction level for a planning model is a difficult process for a human, so methods to automatically develop and update the formulation of a problem is an important area for future work.
 
-\section{Overview of Methods}
+\section{Overview of Data Structures and Representations}
 The entire task of planning in an unknown domain can be broken down
 into the following sequence of steps. The first and foremost challenge
 is to choose an efficient and space conservative method to store the
@@ -191,7 +191,7 @@ to reach its goal. The utilization of macros reduces the expansion
 factor further since it learns which states to expand and which not
 to.
 
-\subsection{Search Techniques}
+\section{Overview of Search Techniques}
 
 
 To find out the node that has to be expanded next in the path towards
