@@ -384,15 +384,23 @@ RTAA* doesn’t work when heuristics are inconsistent.
 \subsection{Learning Real Time A*}
 
 LRTA* updates the heuristics in a very basic way. For a given state
-\(s\), LRTA* with a lookahead of one considers immediate neighbors.
-For each neighbor state, the values of \(f\) is calculated. If \(s'\)
-is the state with the least \(f\) value, and if it is greater than the
-h value of the current state \(s\), then \(h(s)\) is initialized to
-\(f(s')\). As far as LTRA* is concerned, the factors that have to be
-taken into consideration are deeper lookaheads, heuristic weights and
-adding backtracking so that the heuristics of predecessor nodes can
-also be updated. For non-deterministic domains, min-max LRTA* is
-proposed
+\(s\), LRTA* with a lookahead of one considers immediate neighbors. We
+choose to advance toward the neighbor with the lowest value for
+\(f()\), and consider \(s'\) to be the state of this neighbor. If
+\(f(s') + 1\) is greater than the current \(f(s)\), then \(f(s)\) is
+set to \(f(s') + 1\). Finally, \(s\) is advanced to \(s'\). As far as
+LTRA* is concerned, the factors that have to be taken into
+consideration are deeper lookaheads, heuristic weights and adding
+backtracking so that the heuristics of predecessor nodes can also be
+updated.
+
+For non-deterministic domains, min-max LRTA*\cite{koenig2006real} is
+proposed. Here, when deciding which neighbor to advance toward, we
+consider only the maximum possble value of \(f()\) for each. In a
+deterministic case, there is only one possible value for each, so this
+collapses back into regular LRTA*. This min-of-maxes is used again
+when setting \(f(s)\), again only when it's value \(+1\) exceeds the
+current \(f(s)\).
 
 \bibliographystyle{acmsiggraph}
 \nocite{*}
