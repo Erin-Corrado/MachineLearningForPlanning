@@ -154,11 +154,11 @@ methods for machine learning and planning, each crafted to solve a
 different type of problem. Some methods such as the RTAA* follows
 trajectories of smaller cost for given time limits per search because
 it updates the heuristics quicker, which allows it to use larger local
-search spaces, which overcompensates for its less informed heuristics.
+search spaces, which overcompensates for its less informed heuristics. \cite{koenig2006real}
 While on the other hand, the min-max LRTA* is expected to run in a
 safely explorable state space, meaning the state spaces have to be
 relatively small or contain many evenly spread out goal states, but is
-inefficient if otherwise. Real-time search does not focus on the
+inefficient if otherwise. \cite{koenig1995real} Real-time search does not focus on the
 learning aspect but focuses on the time, thus outputting a sub-optimal
 solution, but nonetheless a fast solution. Pattern Databases and
 Macros can be used to improve performance by making it more efficient
@@ -179,14 +179,14 @@ Observation of initial and end goal states along with search space is
 also key. If the solution must be optimal and the search space is
 small, using the RTAA* would be appropriate since it will output an
 optimal solution, but the min-max LRTA* would be preferred over the
-RTAA* since the LRTA* is the more optimal in smaller search spaces. A
+RTAA* since the LRTA* is the more optimal in smaller search spaces. \cite{korf1990real} A
 Holy Grail solution would seek to combine the optimality of LRTA* with
 the faster speed of RTAA*. Hierarchical Task Networks and Macro
 Abstractions are also very useful in making planning algorithms faster
 and more efficient. The downside to them is that creating a planning
 model from a real-world problem is a difficult and time consuming task
 for humans. A long term goal of planning is to create a model that
-automatically creates and updates the formulation of a problem.
+automatically creates and updates the formulation of a problem. \cite{botea2005macro}
 Therefore, the Holy Grail solution would also include the ability to
 automatically and dynamically generate new abstraction models for the
 planning, to help with non-deterministic environments.
@@ -291,7 +291,7 @@ the tasks to be performed by decomposing complex tasks into a simple
 sequence of primitive actions. To notify the agent on how to decompose
 non primitive tasks into subtasks, a set of methods are utilized for
 decomposing a particular kind of task into a set of subtasks provided
-a set of preconditions are satisfied. For each task, there may be more
+a set of preconditions are satisfied. \cite{erol1994htn} For each task, there may be more
 than one applicable method, and thus more than one way to decompose
 the task into subtasks. For example, in a grid
 world representation of a room that has to be cleaned by a vacuum
@@ -301,7 +301,7 @@ move left where the move actions become valid when the grid cell is
 clean. One of the task planners that utilize HTNs is the Simple
 Hierarchical Ordered Planner (SHOP). A SHOP is domain independent. HTN
 planning is in essence a case of decomposition of the entire problem
-into subtasks, stopping when it reaches primitive tasks. An ordered
+into subtasks, stopping when it reaches primitive tasks. \cite{nau1999shop} An ordered
 task planner plans in the same way the sequence of actions will be
 executed. This reduces the complexity and assumes the deterministic
 nature of the environment
@@ -312,7 +312,7 @@ With the complex actions having been decomposed to a basic set of
 primitive tasks, one important data structure that reduces the
 complexity exponentially would be pattern databases. A pattern
 database holds a collection of solutions to sub problems which have to
-be solved to get the overall solution. If the amount of space
+be solved to get the overall solution. \cite{korf2002disjoint} If the amount of space
 available is higher, then the solutions to the sub problems can be
 precomputed and stored for more efficient and faster calculations.
 Essentially, pattern databases work by the comparison of current state
@@ -332,7 +332,7 @@ essentially thought of as an act of extending the path towards the
 solution. A good choice leads to an increase in agent performance
 while a poor choice raises the branching factor thereby causing the
 performance to drop. One of the planners that utilize macros is the
-Macro FF planner. An FF planner is a fully automated planner that uses
+Macro FF planner. \cite{botea2005macro} An FF planner is a fully automated planner that uses
 a heuristic search approach to estimate the best node/state to expand
 to reach its goal. The utilization of macros reduces the expansion
 factor further since it learns which states to expand and which not
@@ -401,7 +401,7 @@ The basic idea behind Real Time Adaptive A* is simple. In an
 environment with multiple agents, each agent has to perform A*
 repeatedly with the same goal state but with possibly different start
 states. But each time A* is performed, the heuristics give a better
-estimate so that future A* searches are quicker. A* in general works
+estimate so that future A* searches are quicker. \cite{koenig2006real} A* in general works
 by using \(f(s)\) which is the sum of the cost function \(g(s)\) from
 start node to current node and heuristic estimate \(h(s)\) from the
 current node to the goal state. A priority queue maintains a list of
