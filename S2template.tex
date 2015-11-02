@@ -41,6 +41,9 @@
 \usepackage{amsmath}
 \usepackage{pifont}
 \usepackage[usenames, dvipsnames]{color}
+\usepackage{tikz}
+\usetikzlibrary{graphs, graphs.standard, graphdrawing}
+\usegdlibrary{circular}
 
 \newcommand{\cmark}{\color{Green}{\ding{51}}}
 \newcommand{\xmark}{\color{Red}{\ding{55}}}
@@ -240,7 +243,7 @@ human, so methods to automatically develop and update the formulation
 of a problem is an important area for future work.
 
 \begin{table*}
-  \begin{center}
+  \centering
   \begin{tabular}{|c|c| c |c|c|c|}
     \hline
      & Fast at runtime & Memory Efficient & Real-time & Scalable & Non-deterministic domains\\
@@ -258,7 +261,6 @@ of a problem is an important area for future work.
     Strong AI & \cmark & \cmark & \cmark & \cmark & \cmark\\
     \hline
   \end{tabular}
-  \end{center}
   \caption{Feature matrix.}
   \label{table:feature_matrix}
 \end{table*}
@@ -338,7 +340,6 @@ to.
 
 \section{Overview of Search Techniques}
 
-
 To find out the node that has to be expanded next in the path towards
 the goal, the choice has to be made such that the expanded nodes take
 us closer to the goal and also compute that optimal solution quickly.
@@ -348,6 +349,51 @@ since it would run out of memory before the goal can be reached. Some
 variations of A* such as Real Time Adaptive A* and the Learning in
 Real Time A* algorithms can be considered viable alternatives
 depending on the environments in which the planner has to work on.
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    % taken from github
+    \newcommand{\pacman}[1]{\tikz[baseline=.1em,scale=.6]{
+        \useasboundingbox (.02,0) rectangle (.6,.6);
+        \draw [fill=#1] (.3,.3) -- ++(25:.3) arc (+25:+335:.3) -- cycle;
+    }}
+
+    % taken from github, modified to add mouth
+    \newcommand{\ghost}[1]{\tikz[baseline=.1em,scale=.5]{
+        \draw [fill=#1] (0,0) -- (0,.5) arc (+180:0:.3) -- (.6,0) --
+        (.5,.15) -- (.4,0) -- (.3,.15) -- (.2,0) -- (.1,.15) -- cycle;
+        \coordinate (eye) at (360*rand:.03);
+        \foreach \x in {.17,.43}{
+          \fill[white] (\x,.5) circle[radius=.1];
+          %\fill[black] (\x,.5) ++(eye) circle[radius=.05];
+        }
+        \draw[white](.1,.2) -- (.2,.3) -- (.3,.2) -- (.4,.3) -- (.5,.2);
+    }}
+
+    \graph[simple necklace layout]{
+      1 -- 2 -- 3 -- 4 -- 5 -- 6 -- 7 -- 8 -- 1;
+    };
+
+    \begin{scope}[yshift=-2.5cm]
+    \node (1) {
+      \tikz \ghost{black!30};
+    };
+    \end{scope}
+    \node (1) {
+      \tikz \pacman{white};
+    };
+  \end{tikzpicture}
+  \caption{Hunter/Prey graph. The Hungry Circle seeks to eat the Scared Ghost.}
+  \label{fig:hungrycircle}
+\end{figure}
+
+A simple example of a nondeterministic graph is that of a hunter
+chasing its prey. In this case, the hunter is the agent, and the prey
+is its goal. However, the goal can move about randomly. In figure
+\ref{fig:hungrycircle}, a Hungry Circle chases a Scared Ghost. So long
+as the Ghost continually moves away from the Circle, the goal will
+never be met, meaning a search of this graph may take infinite time.
 
 \subsection{Real Time Adaptive A*}
 
@@ -396,7 +442,8 @@ updated.
 
 For non-deterministic domains, min-max LRTA*\cite{koenig2006real} is
 proposed. Here, when deciding which neighbor to advance toward, we
-consider only the maximum possble value of \(f()\) for each. In a
+consider only the maximum possible value of \(f()\) for each --- in
+other words, we always assume a worst-case scenario. In a
 deterministic case, there is only one possible value for each, so this
 collapses back into regular LRTA*. This min-of-maxes is used again
 when setting \(f(s)\), again only when it's value \(+1\) exceeds the
