@@ -4,7 +4,7 @@
 % use. this is set by the documentclass, so this is sorta breaking the
 % rules, but hey, the alternative is to break compilation.
 \makeatletter
-\let\@fnsymbol\@arabic
+\let\@fnsymbol\@arabic{}
 \makeatother
 
 %%% Used by the ``review'' variation; the online ID will be printed on
@@ -39,6 +39,7 @@
 
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{pifont}
 \usepackage[usenames, dvipsnames]{color}
@@ -66,7 +67,7 @@
 %  \CRcat{I.3.7}{Computer Graphics}{STAR Topic}{CRcat index};
 %\end{CRcatlist}
 
-\keywordlist
+\keywordlist{}
 \setlength{\parskip}{0pt}
 \setlength{\parindent}{10pt}
 
@@ -159,11 +160,11 @@ methods for machine learning and planning, each crafted to solve a
 different type of problem. Some methods such as the RTAA* follows
 trajectories of smaller cost for given time limits per search because
 it updates the heuristics quicker, which allows it to use larger local
-search spaces, which overcompensates for its less informed heuristics. \cite{koenig2006real}
+search spaces, which overcompensates for its less informed heuristics.~\cite{koenig2006real}
 While on the other hand, the min-max LRTA* is expected to run in a
 safely explorable state space, meaning the state spaces have to be
 relatively small or contain many evenly spread out goal states, but is
-inefficient if otherwise. \cite{koenig1995real} Real-time search does not focus on the
+inefficient if otherwise.~\cite{koenig1995real} Real-time search does not focus on the
 learning aspect but focuses on the time, thus outputting a sub-optimal
 solution, but nonetheless a fast solution. Pattern Databases and
 Macros can be used to improve performance by making it more efficient
@@ -175,23 +176,23 @@ costs, depending on the algorithm's purpose.
 As observed in the previous paragraph there are various methods that
 are optimal for one scenario but not for another. Since there are a
 plethora of problems and solutions under the umbrella of machine
-learning and planning, there is no one "Holy Grail", but a "Holy
-Grail" for each problem and solution. We can, however, speculate on
-what a "Holy Grail" solution would entail. One must observe what is
+learning and planning, there is no one ``Holy Grail'', but a ``Holy
+Grail'' for each problem and solution. We can, however, speculate on
+what a ``Holy Grail'' solution would entail. One must observe what is
 important in a solution: does the solution need to be obtained as fast
 as possible, or does the solution need to be optimal, etc.?
 Observation of initial and end goal states along with search space is
 also key. If the solution must be optimal and the search space is
 small, using the RTAA* would be appropriate since it will output an
 optimal solution, but the min-max LRTA* would be preferred over the
-RTAA* since the LRTA* is the more optimal in smaller search spaces. \cite{korf1990real} A
+RTAA* since the LRTA* is the more optimal in smaller search spaces.~\cite{korf1990real} A
 Holy Grail solution would seek to combine the optimality of LRTA* with
 the faster speed of RTAA*. Hierarchical Task Networks and Macro
 Abstractions are also very useful in making planning algorithms faster
 and more efficient. The downside to them is that creating a planning
 model from a real-world problem is a difficult and time consuming task
 for humans. A long term goal of planning is to create a model that
-automatically creates and updates the formulation of a problem. \cite{botea2005macro}
+automatically creates and updates the formulation of a problem.~\cite{botea2005macro}
 Therefore, the Holy Grail solution would also include the ability to
 automatically and dynamically generate new abstraction models for the
 planning, to help with non-deterministic environments.
@@ -199,7 +200,7 @@ planning, to help with non-deterministic environments.
 \section{Prior Work}
 The study of machine learning and planning can be broken down into
 several categories: Pattern Databases, local search space, Real Time
-Adaptive A*, and Learning Real Time A*. . Pattern database are
+Adaptive A*, and Learning Real Time A*. Pattern database are
 admissible heuristics that are studied and tested on
 domain-independent search problems. Another criteria is the use of the
 local search space to optimize large scale search problems, while the
@@ -230,7 +231,7 @@ algorithms have an excessive computation complexity for the optimal
 path when good is enough.
 
 \section{Future Work}
-Since there exists no "perfect" planning algorithm, many open problems
+Since there exists no ``perfect'' planning algorithm, many open problems
 and opportunities for future research exist. One area is pattern
 databases; the downfall of pattern databases is that they require a
 great deal of memory. Future work to compress pattern databases and
@@ -242,29 +243,29 @@ future work is using the Macro-FF learning method with complex
 structures such as HTNs. Not much research has been done with learning
 and HTNs, making this an important area for future research. A long
 term open problem is automatic abstraction of planning domains and
-problems, as explained in the "Holy Grail" solution. Choosing a good
+problems, as explained in the ``Holy Grail'' solution. Choosing a good
 abstraction level for a planning model is a difficult process for a
 human, so methods to automatically develop and update the formulation
 of a problem is an important area for future work.
 
 \begin{table*}
   \centering
-  \begin{tabular}{|c|c| c |c|c|c|}
-    \hline
-     & Fast at runtime & Memory Efficient & Real-time & Scalable & Non-deterministic domains\\
-     \hline
-    RTAA* & \cmark & \cmark & \cmark & \xmark  & \cmark \\
-    \hline
-    min-max LRTA* & \cmark & \cmark & \cmark & \xmark  & \cmark \\
-    \hline
-    Pattern Databases & \cmark & \xmark & \xmark & \cmark & \xmark\\
-    \hline
-    HTN   & \xmark & \cmark & \xmark & \cmark & \xmark \\
-    \hline
-    Macro Actions & \cmark & \cmark & \xmark & \cmark & \xmark \\
-    \hline
-    Strong AI & \cmark & \cmark & \cmark & \cmark & \cmark\\
-    \hline
+  \begin{tabular}{*{6}{c}}
+    \toprule
+    & Fast at runtime & Memory Efficient & Real-time & Scalable & Non-deterministic domains \\
+    \midrule
+    RTAA* & \cmark{} & \cmark{} & \cmark{} & \xmark{}  & \cmark{} \\
+    \midrule
+    min-max LRTA* & \cmark{} & \cmark{} & \cmark{} & \xmark{}  & \cmark{} \\
+    \midrule
+    Pattern Databases & \cmark{} & \xmark{} & \xmark{} & \cmark{} & \xmark{} \\
+    \midrule
+    HTN   & \xmark{} & \cmark{} & \xmark{} & \cmark{} & \xmark{} \\
+    \midrule
+    Macro Actions & \cmark{} & \cmark{} & \xmark{} & \cmark{} & \xmark{} \\
+    \midrule
+    Strong AI & \cmark{} & \cmark{} & \cmark{} & \cmark{} & \cmark{} \\
+    \bottomrule
   \end{tabular}
   \caption{Feature matrix.}
   \label{table:feature_matrix}
@@ -296,7 +297,7 @@ the tasks to be performed by decomposing complex tasks into a simple
 sequence of primitive actions. To notify the agent on how to decompose
 non primitive tasks into subtasks, a set of methods are utilized for
 decomposing a particular kind of task into a set of subtasks provided
-a set of preconditions are satisfied. \cite{erol1994htn} For each task, there may be more
+a set of preconditions are satisfied.~\cite{erol1994htn} For each task, there may be more
 than one applicable method, and thus more than one way to decompose
 the task into subtasks. For example, in a grid
 world representation of a room that has to be cleaned by a vacuum
@@ -306,7 +307,7 @@ move left where the move actions become valid when the grid cell is
 clean. One of the task planners that utilize HTNs is the Simple
 Hierarchical Ordered Planner (SHOP). A SHOP is domain independent. HTN
 planning is in essence a case of decomposition of the entire problem
-into subtasks, stopping when it reaches primitive tasks. \cite{nau1999shop} An ordered
+into subtasks, stopping when it reaches primitive tasks.~\cite{nau1999shop} An ordered
 task planner plans in the same way the sequence of actions will be
 executed. This reduces the complexity and assumes the deterministic
 nature of the environment
@@ -317,7 +318,7 @@ With the complex actions having been decomposed to a basic set of
 primitive tasks, one important data structure that reduces the
 complexity exponentially would be pattern databases. A pattern
 database holds a collection of solutions to sub problems which have to
-be solved to get the overall solution. \cite{korf2002disjoint} If the amount of space
+be solved to get the overall solution.~\cite{korf2002disjoint} If the amount of space
 available is higher, then the solutions to the sub problems can be
 precomputed and stored for more efficient and faster calculations.
 Essentially, pattern databases work by the comparison of current state
@@ -337,7 +338,7 @@ essentially thought of as an act of extending the path towards the
 solution. A good choice leads to an increase in agent performance
 while a poor choice raises the branching factor thereby causing the
 performance to drop. One of the planners that utilize macros is the
-Macro FF planner. \cite{botea2005macro} An FF planner is a fully automated planner that uses
+Macro FF planner.~\cite{botea2005macro} An FF planner is a fully automated planner that uses
 a heuristic search approach to estimate the best node/state to expand
 to reach its goal. The utilization of macros reduces the expansion
 factor further since it learns which states to expand and which not
@@ -406,7 +407,7 @@ The basic idea behind Real Time Adaptive A* is simple. In an
 environment with multiple agents, each agent has to perform A*
 repeatedly with the same goal state but with possibly different start
 states. But each time A* is performed, the heuristics give a better
-estimate so that future A* searches are quicker. \cite{koenig2006real} A* in general works
+estimate so that future A* searches are quicker.~\cite{koenig2006real} A* in general works
 by using \(f(s)\) which is the sum of the cost function \(g(s)\) from
 start node to current node and heuristic estimate \(h(s)\) from the
 current node to the goal state. A priority queue maintains a list of
@@ -578,7 +579,7 @@ of steps left and then apply a dynamic programming algorithm known as value iter
 Let $J_k \left( s_i, a \right)$ denote the \textit{expected} value of taking action $a$ 
 in state $s_i$ when there are $k$ steps left in the process, and similarly let 
 $\pi_k \left(s_i \right)$ denote the optimal policy for state $s_i$ when there are $k$ steps 
-left in the process. Then our definitions from section~\ref{sec:policies} become
+left in the process. Then our definitions from Section~\ref{sec:policies} become
 \begin{equation*}
   \begin{split}
     \pi_k \left(s_i \right) &= \argmax_a J_k \left( s_i, a \right) \\
@@ -591,8 +592,8 @@ We also define a base case for when $k=0$,
 \end{equation*}
 
 If there were only a finite amount of steps $K$, then we could iterate over $k = 0, 1, \ldots, K$ 
-(as well as $i = 0, 1, \ldots |S|$ and all $a \in A$) and compute each $\pi_k$ and $J_k$.
- However, there is nothing preventing the numbers of steps from becoming infinite. 
+(as well as $i = 0, 1, \ldots |S|$ and all $a \in A$) and compute each $\pi_k$ and $J_k$. 
+However, there is nothing preventing the number of steps from becoming infinite. 
 In this case, we choose some $\epsilon > 0$ and stop iterating over $k$ when
 \begin{equation*}
   \left| J_k\left( s_i, a \right) - J_{k-1}\left( s_i, a \right) \right| < \epsilon
@@ -605,7 +606,7 @@ Value iteration works by improving our planning policy despite having inaccurate
 estimates of $J_k$. Policy iteration takes the opposite approach and begins with 
 any arbitrary policy (or even a completely random one) and obtains accurate estimates 
 of $J_k$ before improving the policy. Policy iteration involves two steps: computing 
-the rewards $J_K \left(s_i, \pi_k \right)$ for a fixed arbitrary policy, and then 
+the rewards $J_k \left(s_i, \pi_k \left(s_i \right) \right)$ for a fixed arbitrary policy, and then 
 using these rewards to compute a better policy.
 
 Given some fixed policy $\pi_k$, we compute the rewards much in the same way as before:
@@ -619,8 +620,9 @@ and \textit{then} a better policy is calculated,
 
 This method is not guaranteed to return the optimal policy. A different method exists 
 where $n$ equations with $n$ unknowns are formed and solved just by using Gauss-Jordan 
-elimination. This method is $\mathcal{O} \left( n^3 \right)$, where as the previous 
-method is $\mathcal{O} \left( n^2 \right)$, but it is guaranteed to return the optimal policy.
+elimination. The Gauss-Jordan method has a time complexity of $\mathcal{O} \left( n^3 \right)$, 
+where as the previous method is only $\mathcal{O} \left( n^2 \right)$. The Gauss-Jordan 
+method, however, is guaranteed to return the optimal policy.
 
 In general, value iteration runs much faster than policy iteration. Policy iteration 
 can converge quite fast if a near-optimal policy is known in advance.
@@ -661,7 +663,7 @@ of beliefs $B^\prime$ by
   B^\prime = \tau \left( B, a, \omega \right)
 \end{equation*}
 
-\subsection{Solving a POMDP: Modified Policy Iteration}
+\subsection{Solving a POMDP:\@ Modified Policy Iteration}
 %TODO(jake): explain the many ways to solve a POMDP and some current research.
 
 The exact solution to a POMDP yields the exact sequence of actions that an agent should take 
@@ -674,7 +676,6 @@ The methods should be modified to return a belief state vector.
 
 \subsection{Applications of POMDPs}
 %TODO(jake) give a few applications of POMDPs
-
 
 
 \bibliographystyle{acmsiggraph}
