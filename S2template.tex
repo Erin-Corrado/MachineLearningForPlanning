@@ -39,14 +39,19 @@
 
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{graphicx}
 \usepackage{pifont}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage{tikz}
 \usetikzlibrary{graphs, graphs.standard, graphdrawing}
 \usegdlibrary{circular}
 
+\graphicspath{ {images/} } %\includegraphics will look for images in the images/ folder
+
+\newcommand{\given}[1][]{\:#1\vert\:}
 \newcommand{\cmark}{\color{Green}{\ding{51}}}
 \newcommand{\xmark}{\color{Red}{\ding{55}}}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
 
 \begin{document}
 
@@ -448,6 +453,229 @@ deterministic case, there is only one possible value for each, so this
 collapses back into regular LRTA*. This min-of-maxes is used again
 when setting \(f(s)\), again only when it's value \(+1\) exceeds the
 current \(f(s)\).
+
+\section{Modeling a Planning Problem}
+%TODO(jake): add citations
+
+Many planning and reinforcement learning problems occur in partially 
+observable stochastic environments. Given a complete model of the 
+environment, the problem can be reformulated as a Partially Observable 
+Markov Decision Process (POMDP), a technique borrowed from operations 
+research. POMDPs generalize Markov Decision Processes (MDPs) to allow 
+for the agent to learn. MDPs themselves are an extension of Markov chains, 
+allowing the agent to possess a utility function. Many important 
+properties of Markov chains and MDPs carry over to POMDPs, so they will 
+be briefly discussed first.
+
+\subsection{Markov Chains}
+
+Given a countable state space $S$ and a probability measure $P$ on some 
+sample space, a stochastic process $X = \left\{ X_n \given n \in \mathbb{N} \right\}$ 
+is said to be a Markov chain if
+\begin{equation*}
+  P \left( X_{n+1} = s \given X_0, X_1, \ldots, X_n \right) = P \left( X_{n+1} = s \given X_n \right)
+\end{equation*}
+for all $s \in S$. In other words, at any point in time the process is 
+in a well-defined state and the probability that it will transition into 
+a different state is dependent only on the current state and not the path 
+it took to arrive there. A stochastic process for which this is true is said 
+to satisfy the Markov property, or that it simply is Markovian.
+
+\begin{figure}[h]
+  \centering
+  \def\svgwidth{\columnwidth}
+  \includegraphics[scale=0.3]{MarkovChain.pdf}
+  \caption{A simple two state Markov chain. (Source: Wikipedia)}
+  \label{fig:markovChain}
+\end{figure}
+
+This definition can be extended to the continuous time case to form 
+what is called a Markov process. Given a state space $S$, a time 
+$t \in \mathbb{R}^+ = \left[ 0, \infty \right)$, and a stochastic process 
+$X = \left\{ X_t \given t \in \mathbb{R}^+ \right\}$, we say that $X$ is a 
+Markov process if for any $s \in S$ $\epsilon \geq 0$ and $\tau < t$,
+\begin{equation*}
+  P \left( X_{t+\epsilon} = s \given X_\tau \right) = P \left( X_{t+\epsilon} = s \given X_t \right)
+\end{equation*}
+The interpretation of this definition is the same as the case of the discrete time Markov chain.
+
+\subsection{Markov Decision Processes}
+
+Ordinary Markov chains are rarely used in planning problems due to their 
+limited flexibility. MDPs are a class of discrete time stochastic control 
+processes that extend the theory of Markov chains to model Markovian agents 
+who have partial control over their environment. Given a countable set of 
+states $S$, a countable set of actions $A$, a probability measure 
+$P : S \times S \times A \mapsto \left[0, 1 \right]$, a reward function 
+$R : S \times A \mapsto \mathbb{R}$, and a discount factor $\gamma \in \left[0, 1 \right]$,
+an MDP $X$ is defined as the 5-tuple
+\begin{equation*}
+  X = \left(S, A, P, R, \gamma \right)
+\end{equation*}
+
+The probability measure for an MDP is sometimes referred to as a transition
+ model. For $s, s^\prime \in S $ and $a \in A$, the number $P \left(s, s^\prime , a \right)$
+ is the probability that the agent will transition into state $s^\prime$ 
+if it takes the action $a$ while in state $s$. $R \left( s, a \right)$ is 
+the reward (utility) that the agent will receive if it takes action $a$ while 
+in state $s$. The discount factor represents how much the agent discounts 
+future rewards. If $\gamma \approx 1$ then rewards in the far future will 
+only be discounted slightly relative to the near future, and conversely if 
+$\gamma \approx 0$ then rewards in the far future will be heavily discounted.
+
+Let $R_t \in R$ denote the reward an agent receives at time $t$. As usual, 
+we are considering the discrete time case $t = 0, 1, \ldots$ so the agent's 
+total reward including the discount factor will be
+\begin{equation*}
+  \sum_{t=0}^\infty \gamma^t R_t
+\end{equation*}
+Since $\gamma \in \left[0, 1 \right]$, this series will always converge given 
+finite valued rewards.
+
+If $A$ and $S$ are finite rather than countable, then an MDP can be solved with 
+linear programming or a variety of dynamic programming algorithms.
+
+\begin{figure}[h]
+  \centering
+  \def\svgwidth{\columnwidth}
+  \includegraphics[width=\columnwidth]{MDP.png}
+  \caption{A three state MDP with $\left| A \right| =2$. (Source: Wikipedia)}
+  \label{fig:markovDecisionProcess}
+\end{figure}
+
+\subsubsection{Policies}
+\label{sec:policies}
+
+We have not yet specified how an agent decides which action to take. A policy 
+$\pi : S \mapsto A$ is a function which determines what action an agent will take 
+at each state. We say than a policy is an optimal policy if it leads to the highest expected reward.
+
+Let $J \left( s_i, a \right) : S \times A \mapsto \mathbb{R}$ denote the \textit{expected} 
+discounted value of taking action $a$ in state $s_i$ when there are $k$ steps 
+left in the process. A useful but unenlightening way to define an optimal policy is
+\begin{equation*}
+  \pi \left(s_i \right) = \argmax_a J \left( s_i, a \right)
+\end{equation*}
+This reads almost literally as ``given state $s_i$, choose the action which maximizes 
+the expected reward.'' We define $J \left( s_i, a \right)$ as the reward $R_{ia}$ for 
+taking action $a$ in state $s_i$ plus the expected discounted reward for taking that 
+action. Let $P_{ija}$ denote the probability of transitioning from state $s_i$ into $s_j$ 
+after taking action $a$, then
+\begin{equation} \label{eqn:J}
+  J \left( s_i, a \right) = R_{ia} + \gamma \sum_j P_{ija} J \left( s_j, \pi \left( s_j \right) \right)
+\end{equation}
+
+\subsection{Solving an MDP}
+It is much easier to explain how to solve a POMDP if we first know to solve an MDP. 
+The solution of an MDP returns an optimal policy, the exact sequence of actions to take 
+at each point in time to maximize the agent's reward. For any given MDP, there exists a 
+unique optimal policy.
+
+\subsubsection{Value Iteration}
+
+To solve Equation~\ref{eqn:J}, it is convenient to break up the problem by the number 
+of steps left and then apply a dynamic programming algorithm known as value iteration. 
+Let $J_k \left( s_i, a \right)$ denote the \textit{expected} value of taking action $a$ 
+in state $s_i$ when there are $k$ steps left in the process, and similarly let 
+$\pi_k \left(s_i \right)$ denote the optimal policy for state $s_i$ when there are $k$ steps 
+left in the process. Then our definitions from section~\ref{sec:policies} become
+\begin{equation*}
+  \begin{split}
+    \pi_k \left(s_i \right) &= \argmax_a J_k \left( s_i, a \right) \\
+    J_k \left( s_i, a \right) &= R_{ia} + \gamma \sum_j P_{ija} J_{k-1} \left( s_j, \pi \left( s_j \right) \right)
+  \end{split}
+\end{equation*}
+We also define a base case for when $k=0$,
+\begin{equation*}
+  J_0 \left( s, a \right) = 0 \quad \forall \left( s, a \right) \in S \times A
+\end{equation*}
+
+If there were only a finite amount of steps $K$, then we could iterate over $k = 0, 1, \ldots, K$ 
+(as well as $i = 0, 1, \ldots |S|$ and all $a \in A$) and compute each $\pi_k$ and $J_k$.
+ However, there is nothing preventing the numbers of steps from becoming infinite. 
+In this case, we choose some $\epsilon > 0$ and stop iterating over $k$ when
+\begin{equation*}
+  \left| J_k\left( s_i, a \right) - J_{k-1}\left( s_i, a \right) \right| < \epsilon
+\end{equation*}
+Since $J_k$ is convergent, this condition is guaranteed to occur eventually.
+
+\subsubsection{Policy Iteration}
+
+Value iteration works by improving our planning policy despite having inaccurate 
+estimates of $J_k$. Policy iteration takes the opposite approach and begins with 
+any arbitrary policy (or even a completely random one) and obtains accurate estimates 
+of $J_k$ before improving the policy. Policy iteration involves two steps: computing 
+the rewards $J_K \left(s_i, \pi_k \right)$ for a fixed arbitrary policy, and then 
+using these rewards to compute a better policy.
+
+Given some fixed policy $\pi_k$, we compute the rewards much in the same way as before:
+\begin{equation*}
+    J_k \left( s_i, \pi_k \left( s_j \right) \right) = R_{ia} + \gamma \sum_j P_{ija} J_{k-1} \left( s_j, \pi_k \left( s_j \right) \right)
+\end{equation*}
+and \textit{then} a better policy is calculated,
+\begin{equation*}
+  \pi_k \left(s_i \right) = \argmax_a J_k \left( s_i, a \right)
+\end{equation*}
+
+This method is not guaranteed to return the optimal policy. A different method exists 
+where $n$ equations with $n$ unknowns are formed and solved just by using Gauss-Jordan 
+elimination. This method is $\mathcal{O} \left( n^3 \right)$, where as the previous 
+method is $\mathcal{O} \left( n^2 \right)$, but it is guaranteed to return the optimal policy.
+
+In general, value iteration runs much faster than policy iteration. Policy iteration 
+can converge quite fast if a near-optimal policy is known in advance.
+
+\subsection{Partially Observable Markov Decision Processes}
+
+MDPs are useful for modeling environments where the outcome is partially stochastic 
+and partially controlled by the decision maker. However, they assume that the agent 
+has complete knowledge of the environment \textit{ex-ante}. Because of this, ordinary 
+MDPs have no place in reinforcement learning problems and only limited use for planning 
+problems. POMDPs are a more generalized version of MDPs which allow the agent to learn 
+as it interacts with its environment. This is done by adding two more objects to the tuple: 
+a set of possible observations $\Omega$, and a probability measure $O$ corresponding to the 
+probabilities of each observation being made given a certain action in a certain state, 
+$O = O \left( \omega \in \Omega, s \in S, a \in A \right)$. Thus a POMDP $X$ is defined 
+by the 7-tuple
+\begin{equation*}
+  X = \left(S, A, P, R, \Omega, O, \gamma \right)
+\end{equation*}
+
+A ``belief set'' $B$ is typically also part of a POMDP problem. The beliefs $b \left( s \right) \in B$ 
+represent a probability distribution over the states $s \in S$. At each time step, 
+the agent takes an action $a \in A$ which causes three things happen: the agent transitions 
+into a new state $s^\prime \in S$ (like in a Markov chain), the agent receives a reward equal to 
+$R \left( s^\prime, a \right)$ (like in an MDP), %TODO(jake): should it be R(s,a)?
+and the agent receives an observation $\omega \in \Omega$ about the environment with probability 
+$O \left( \omega \given s^\prime, a \right)$ which it then uses to update its beliefs.
+
+The last step is what gives POMDPs their flexibility. Since there are no restrictions on what method 
+the agent uses to update its beliefs (other than, of course, that the beliefs should obey the axioms 
+of probability), we are free to choose whatever statistical model or machine learning method that's 
+appropriate for our system.
+
+Let $\tau$ denote the belief update function. Since POMDPs are Markovian, $\tau$ depends on the 
+agent's current beliefs and not beliefs which were previously held. The agent receives a new set 
+of beliefs $B^\prime$ by
+\begin{equation*}
+  B^\prime = \tau \left( B, a, \omega \right)
+\end{equation*}
+
+\subsection{Solving a POMDP: Modified Policy Iteration}
+%TODO(jake): explain the many ways to solve a POMDP and some current research.
+
+The exact solution to a POMDP yields the exact sequence of actions that an agent should take 
+to maximize the sum of its rewards. The definition of a POMDP allows for countably infinite 
+state and action spaces. However, most algorithms for solving POMDPs must assume that the 
+state and action spaces are finite.
+
+POMDPs can be solved using almost the same methods as MDPs. 
+The methods should be modified to return a belief state vector.
+
+\subsection{Applications of POMDPs}
+%TODO(jake) give a few applications of POMDPs
+
+
 
 \bibliographystyle{acmsiggraph}
 \nocite{*}
