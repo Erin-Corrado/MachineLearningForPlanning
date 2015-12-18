@@ -50,6 +50,7 @@
 \graphicspath{ {images/} } %\includegraphics will look for images in the images/ folder
 
 \newcommand{\given}[1][]{\:#1\vert\:}
+\newcommand{\reals}{\mathbb{R}}
 \newcommand{\cmark}{\color{Green}{\ding{51}}}
 \newcommand{\xmark}{\color{Red}{\ding{55}}}
 \DeclareMathOperator*{\argmax}{\arg\!\max}
@@ -488,7 +489,6 @@ to satisfy the Markov property, or that it simply is Markovian.
 
 \begin{figure}[h]
   \centering
-  \def\svgwidth{\columnwidth}
   \includegraphics[scale=0.3]{MarkovChain.pdf}
   \caption{A simple two state Markov chain. (Source: Wikipedia)}
   \label{fig:markovChain}
@@ -501,8 +501,8 @@ from state $v$ into state $u$, $P \left( X_{n+1} = u \given X_n = v \right)$.
 
 The definition of a Markov chain can be extended to the continuous time case to form 
 what is called a Markov process. Given a state space $S$, a time 
-$t \in \mathbb{R}^+ = \left[ 0, \infty \right)$, and a stochastic process 
-$X = \left\{ X_t \given t \in \mathbb{R}^+ \right\}$, we say that $X$ is a 
+$t \in \reals^+ = \left[ 0, \infty \right)$, and a stochastic process 
+$X = \left\{ X_t \given t \in \reals^+ \right\}$, we say that $X$ is a 
 Markov process if for any $s \in S$, $\epsilon \geq 0$, and all times $\tau \leq t$
 \begin{equation*}
   P \left( X_{t+\epsilon} = s \given X_{\tau \leq t} \right) = P \left( X_{t+\epsilon} = s \given X_t \right)
@@ -517,7 +517,7 @@ processes that extend the theory of Markov chains to model Markovian agents
 who have partial control over their environment. Given a countable set of 
 states $S$, a countable set of actions $A$, a probability measure 
 $P : S \times S \times A \mapsto \left[0, 1 \right]$, a reward function 
-$R : S \times A \mapsto \mathbb{R}$, and a discount factor $\gamma \in \left[0, 1 \right]$,
+$R : S \times A \mapsto \reals$, and a discount factor $\gamma \in \left[0, 1 \right]$,
 an MDP $X$ is defined as the 5-tuple
 \begin{equation*}
   X = \left(S, A, P, R, \gamma \right)
@@ -567,7 +567,7 @@ We have not yet specified how an agent decides which action to take. A policy
 $\pi : S \mapsto A$ is a function which determines what action an agent will take 
 at each state. We say than a policy is an optimal policy if it leads to the highest expected utility.
 
-Let $U \left( s_i, a \right) : S \times A \mapsto \mathbb{R}$ denote the \textit{expected} 
+Let $U \left( s_i, a \right) : S \times A \mapsto \reals$ denote the \textit{expected} 
 discounted utility of taking action $a$ in state $s_i$. A useful but unenlightening 
 way to define an optimal policy is
 \begin{equation*}
@@ -586,6 +586,13 @@ We say that $U \left( s_i, a \right)$ satisfies the Bellman equation if
 \begin{equation*}
   U \left( s_i, a \right) = \max_{a \in A} R_{ia} + \gamma \sum_{j=1}^{\left| S \right|} P_{ija} U \left( s_j, \pi \left( s_j \right) \right)
 \end{equation*}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.4]{valueTrees.png}
+  \caption{Two policies represented as trees and their corresponding utility functions for a two state POMDP.~\protect\cite{hansen2004dynamic}}
+  \label{fig:valueTrees}
+\end{figure}
 
 \subsection{Solving an MDP}
 It is much easier to explain how to solve a POMDP if we first know how to solve an MDP.\@
@@ -684,9 +691,9 @@ appropriate for our system.
 Let $\tau$ denote the belief update function. Since POMDPs are Markovian, $\tau$ depends on the 
 agent's current beliefs and not beliefs which were previously held. The agent receives a new set 
 of beliefs $B^\prime$ by
-\begin{equation*}
+\begin{equation} \label{eqn:beliefUpdate}
   B^\prime = \tau \left( B, a, \omega \right)
-\end{equation*}
+\end{equation}
 
 \begin{figure}[h]
   \centering
@@ -694,6 +701,21 @@ of beliefs $B^\prime$ by
   \caption{A POMDP represented as a tree.~\protect\cite{smith2004heuristic}}
   \label{fig:POMDPtree}
 \end{figure}
+
+\subsubsection{Belief MDP}
+
+These Markovian belief states can be used to reformulate a POMDP as an MDP in which every state 
+corresponds to a belief. This new MDP is often referred to as a \textit{belief MDP}. Similar to 
+an ordinary MDP, a belief MDP $X$ is defined as a five tuple,
+
+\begin{equation*}
+  X = \left(B, A, \tau, r, \gamma \right)
+\end{equation*}
+
+where $B$ is the set of belief states, $A$ is the same set of actions from the original POMDP, 
+$\tau$ is the belief transition function from Equation~\ref{eqn:beliefUpdate}, and $\gamma$ is 
+the same discount factor from the original POMDP. \@ $r$ is a new reward function 
+$r: B \times A \mapsto \reals$ which must be derived from the original POMDP.
 
 \subsection{Solving a POMDP}
 
@@ -710,6 +732,29 @@ iteration on a very large number of MDPs, since every belief state represents an
 Value iteration on POMDPs has a time complexity which is exponential in \textit{both} the number 
 of states $|S|$ and the number of actions $|A|$.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{combinedValueFunctions.png}
+  \caption{Utiltiy functions for taking actions $a_1$ and $a_2$. Dominated vectors are ``pruned'' away. (Source: Geoffrey J. Gordon)}
+  \label{fig:combinedValue}
+\end{figure}
+
+\subsubsection{Witness Algorithm}
+The witness algorithm attempts to improve value iteration by looking for regions where the utility function is suboptimal. Starting with utility vectors which are already known, the witness algorithm runs a linear program based on the Bellman equation which finds a point in the belief space at which the utility function is incorrect. It then calculates a new utility by forming a linear combination of the old utility vectors and adds it to it's working space. This process is iterated as much as is necessary.
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.3]{currentValueEstimate.png}
+  \caption{Estimate of the utility function during value iteration (Source: Geoffrey J. Gordon)}
+  \label{fig:current}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.3]{suboptimalWitness.png}
+  \caption{The addition of a new vector dominates some of the old vectors. (Source: Geoffrey J. Gordon)}
+  \label{fig:current}
+\end{figure}
+
 \subsubsection{Policy Iteration}
 Although most of what was covered in previous sections was ``textbook'' material, POMDPs remain 
 an active area of research to this day. The size of a real-world POMDP problem is large enough 
@@ -721,7 +766,6 @@ great strides towards improving policy iteration in recent years.
 
 \begin{figure}[h]
   \centering
-  \def\svgwidth{\columnwidth}
   \includegraphics[scale=0.5]{state_controller.png}
   \caption{A simple policy graph. (Source: Geoffrey J. Gordon)}
   \label{fig:state_controller}
@@ -749,6 +793,16 @@ Heuristic Search Value Iteration (HSVI) is an algorithm which obtains approximat
 but runs quite fast and scales well to large problems. The main idea behind HSVI is to combine search 
 heuristics with a piecewise linear convex representation of the utility function.~\cite{smith2004heuristic} 
 The search heuristics greatly reduce the search space by only focusing on the ``most important'' beliefs.
+
+\subsubsection{Continuous State-Action Spaces}
+It is possible to solve a POMDP with uncountably infinite state and action spaces by applying Monte Carlo methods. Obviously, since discrete, finite POMDPs are nearly impossible to solve exactly, infinite POMDPs generally can't be solved exactly either. An approximation algorithm (devised by Thrun) known as the MC-POMDP algorithm uses Monte Carlo sampling to represent beliefs and propagate them through time.~\cite{thrun1999monte} As before, a belief state $B_t$ is a Markovian probability distribution over states obtained as a time $t$ conditioned on previous observations $\omega$ and actions $a$,
+\begin{equation*}
+  B_{t+1} = P \left( X_{t+1} = s_i \given X_t  \right)
+\end{equation*}
+Let $\alpha \in \reals$ represent a normalization constant (ie a number which normalizes a probability distribution), define $O \left( \omega \given s \right)$ to be the probability of making observation $\omega$ in state $s$. In the MC-POMDP algorithm, belief states are calculated by
+\begin{equation*}
+  B_{t+1} = \alpha O \left( \omega_{t+1} \given s_{t+1} \right) \int P \left( X_{t+1} = s_{t+1} \given a_t, X_t  \right) ds_t
+\end{equation*}
 
 \bibliographystyle{acmsiggraph}
 \nocite{*}
